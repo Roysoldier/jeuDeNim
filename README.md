@@ -75,6 +75,197 @@ while running==False:
 - https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png
 
 ## Sources et ressoures graphique du jeu :
+
+# Détails des Objets :
+## Bois : 
+
+    L'objet " Bois " permet de gerer directement tout ce qui se passe avec les allumettes les "bois" du jeux de nim . 
+- Cet Objet rend en entrée le nbr de bois a utiliser ici nous n'en prendrons que 20 ainsi que les dimension de l'écran
+- Fonction draw qui ne prend que self en argument va simplement " dessiner " les bois restant sur la fenêtre de jeu
+
+### Code :
+``` python Object bois
+import pygame
+import time
+class Bois():
+    iteration = 1
+    def __init__(self,nbr,ecran):
+        self.base_nbr = nbr
+        self.nbr = nbr
+        self.ecran = ecran
+        self.surface = pygame.display.set_mode(ecran)
+        self.color = (66,34,22)
+        self.color_delete = (0,0,0)
+        Bois.iteration += 1
+
+    def draw(self):
+        distance = 30
+        for i in range(self.nbr):
+            pygame.draw.rect(self.surface, self.color, pygame.Rect(distance, 210, 30, 300),border_radius=20)
+            distance += 52
+
+```
+
+## Bouton :
+    L'objet Bouton permet de crée les bouton et de récupèrer toutes leur coordonée afin de les localiser et d'en faire des entité pur capable d'interaction dans le code il permet aussi de les afficher simplement.
+- Cet objet prend en entrée l'écran e ces paramètre afin de pouvoir le modifier directement
+- Fonction active_bouton qui prend en entrée le nom du bouton afin de savoir quel bouton activer 'afficher' sur l'écran
+### Code :
+``` python bouton object
+import pygame
+import math
+class Bouton():
+    def __init__(self,screen):
+        self.screen = screen
+
+        self.button1 = pygame.image.load('./data/bouton1.png')
+        self.button1 = pygame.transform.scale(self.button1, (100,100))
+        self.button1_rect = self.button1.get_rect()
+        self.button1_rect.x = screen.get_width() -200
+        self.button1_rect.y = math.ceil(screen.get_height()/1.3)
+
+        self.button2 = pygame.image.load('./data/bouton2.png')
+        self.button2 = pygame.transform.scale(self.button2, (100,100))
+        self.button2_rect = self.button2.get_rect()
+        self.button2_rect.x = screen.get_width()/2 -50
+        self.button2_rect.y = math.ceil(screen.get_height()/1.3)
+
+        self.button3 = pygame.image.load('./data/bouton3.png')
+        self.button3 = pygame.transform.scale(self.button3, (100,100))
+        self.button3_rect = self.button3.get_rect()
+        self.button3_rect.x = 100
+        self.button3_rect.y = math.ceil(screen.get_height()/1.3)
+
+        self.rejouer_bouton = pygame.image.load('./data/replay.png')
+        self.rejouer_bouton = pygame.transform.scale(self.rejouer_bouton, (300,120))
+        self.rejouer_bouton_rect = self.rejouer_bouton.get_rect()
+        self.rejouer_bouton_rect.x = 50
+        self.rejouer_bouton_rect.y = math.ceil(screen.get_height() - 150)
+
+        self.quit_bouton = pygame.image.load('./data/quit.png')
+        self.quit_bouton = pygame.transform.scale(self.quit_bouton, (300,120))
+        self.quit_bouton_rect = self.quit_bouton.get_rect()
+        self.quit_bouton_rect.x = 730
+        self.quit_bouton_rect.y = math.ceil(screen.get_height() - 150)
+
+        self.lancement_bouton_1 = pygame.image.load('./data/one_player.png')
+        self.lancement_bouton_1 = pygame.transform.scale(self.lancement_bouton_1, (300,120))
+        self.lancement_bouton_1_rect = self.lancement_bouton_1.get_rect()
+        self.lancement_bouton_1_rect.x = 50
+        self.lancement_bouton_1_rect.y = math.ceil(screen.get_height() - 150)
+
+        self.lancement_bouton_2 = pygame.image.load('./data/two_player.png')
+        self.lancement_bouton_2 = pygame.transform.scale(self.lancement_bouton_2, (300,120))
+        self.lancement_bouton_2_rect = self.lancement_bouton_2.get_rect()
+        self.lancement_bouton_2_rect.x = 730
+        self.lancement_bouton_2_rect.y = math.ceil(screen.get_height() - 150)
+
+    def active_bouton(self,bouton):
+        if bouton == 'Start_1':
+            self.screen.blit(self.lancement_bouton_1,self.lancement_bouton_1_rect)
+        elif bouton == 'Start_2':
+            self.screen.blit(self.lancement_bouton_2, self.lancement_bouton_2_rect)
+        elif bouton == 'Replay':
+            self.screen.blit(self.rejouer_bouton, self.rejouer_bouton_rect)
+        elif bouton == 'Quit':
+            self.screen.blit(self.quit_bouton, self.quit_bouton_rect)
+        elif bouton == 'B1':
+            self.screen.blit(self.button1, self.button1_rect)
+        elif bouton == 'B2':
+            self.screen.blit(self.button2, self.button2_rect)
+        elif bouton == 'B3':
+            self.screen.blit(self.button3, self.button3_rect)
+
+
+```
+## Joueur :
+    Cet Objet joueur a pour but de repertorier les joueur afin de pouvoir les identifier en tant qu'entité dans le jeu.
+- Cet Objet prend simplement le statut du joueur (de base un joueur sinon une ia)
+- Fonction check_nbr_joueur prend simplement self en argument et sert juste a afficher le nombre de joueur présent.
+- Fonction check_player prend simplement self en argument et set simplement a récuperer le nom du joueur.
+### Code : 
+``` python joueur Object
+import pygame
+
+class Joueur:
+    nombre = 0
+    def __init__(self,status='joueur'):
+        if status == "joueur":
+            Joueur.nombre += 1 
+            self.name = f'Joueur {Joueur.nombre}'
+        elif status == "ia":
+            self.name = 'Robot 1'
+
+    def check_nbr_joueur(self):
+        print(f"La partie comporte {Joueur.nombre} de joueur" )
+    def check_player(self):
+        print(self.name)
+```
+## Game : 
+    Cet Objet Permet de gerer toutes instances de la game  
+
+### Code :
+``` python game code 
+import pygame
+import bois
+import joueur
+import random
+
+class Game():
+    Game_itteration = 0
+    def __init__(self):
+        print(joueur.Joueur.nombre)
+        self.on_game = False
+        Game.Game_itteration += 1
+        self.joueurs = []
+        self.historique = [None]
+    
+    def start_game(self,nbr_joueur,nbr_bois=20,ecran=(500,500)):
+        self.bois = bois.Bois(nbr_bois,ecran)
+        self.nbr_player = nbr_joueur
+        self.on_game = True
+        Game.create_player(self,nbr_joueur)
+
+    def create_player(self,nbr_player):
+        if nbr_player > 2:
+            return 0
+        elif nbr_player == 1:
+            self.joueurs.append(joueur.Joueur())
+            self.joueurs.append(joueur.Joueur('ia'))
+        else :
+            for i in range(1,nbr_player+1):
+                self.joueurs.append(joueur.Joueur())
+            print(self.joueurs)
+    
+    def nbr_players(self):
+        print(f'Il y as {joueur.Joueur.nombre} ')
+
+    def check_delete_nbr(self,nbr_to_delete):
+        if nbr_to_delete < 1 or nbr_to_delete > 3 or nbr_to_delete >= self.bois.nbr:
+            return 0 
+        else:
+            return 1
+    def check_status_game(self):
+        if self.bois.nbr == 1:
+            return 1
+        else:
+            return 0
+    def jeux_ia(self):
+        nbr_a_jouer = 0
+        if self.bois.nbr == 3: 
+            nbr_a_jouer = 2
+        elif self.bois.nbr == 2: 
+            nbr_a_jouer = 1
+        elif self.bois.nbr == 4: 
+            nbr_a_jouer = random.randint(1,2)
+        else :
+            nbr_a_jouer = random.randint(1,3)
+        return nbr_a_jouer
+    def reset_game(self):
+        self.joueurs = []
+        joueur.Joueur.nombre = 0
+        self.historique = [None]
+```
 # Code des librairie personnelle :
 ## myLogger :
 ```python mylogger
@@ -116,115 +307,4 @@ class MyLogger:
             case _:
                 self.logger.debug(message)
 
-```
-## sqlitewrap : 
-```python sqlitewrap
-import sqlite3
-class SqliteWrap:
-    
-    def __init__(self,nameDb=""):
-        self.conn = sqlite3.connect(nameDb,check_same_thread=False)
-        self.cursor = self.conn.cursor()
-
-    def create_table(self, tableName="", listFields = []):
-        try:
-            myCmd = f"CREATE TABLE {tableName}("
-            for i in listFields:
-                myCmd += f"{i[0]} {i[1]},"
-
-            myCmd = myCmd[:-1] + ")"
-            self.cursor.execute(myCmd)
-            self.conn.commit()
-            return 1,None
-        except Exception as e:
-            return 0,e
-
-    def add_row(self,tableName="",listValue=[]):
-        try:
-            myCmd = f"INSERT INTO {tableName}("
-            myValues = " VALUES ("
-            for i in listValue:
-                myCmd += f"'{i[0]}',"
-                if type(i[1]) == str:
-                    myValues += f"'{i[1]}',"
-                else:
-                    myValues += f"{i[1]},"
-
-            myCmd = myCmd[:-1] + ")" + myValues[:-1] + ")"
-            self.cursor.execute(myCmd)
-            self.conn.commit()
-            return 1,None
-        except Exception as e:
-            return 0,e
-    
-    def read_rows(self,tableName="", listFields=[]):
-        try:
-            myCmd = f"SELECT "
-            for i in listFields:
-                myCmd += i + ","
-
-            myCmd = myCmd[:-1] + f" FROM {tableName}" 
-            return self.cursor.execute(myCmd).fetchall(),None
-        except Exception as e:
-            return [],e
-    
-    def max_index(self,tableName="",field=""):
-        try:
-            myCmd = f"SELECT MAX({field}) FROM {tableName}"
-            result =  self.cursor.execute(myCmd).fetchall()
-            if result[0][0] == None:
-                return [(0,)], None
-            return result,None
-        except Exception as e:
-            return [],e
-    
-    def read_row(self,tableName="", condition=""):
-        try:
-            myCmd = f"SELECT * FROM {tableName} WHERE {condition}"
-            result = self.cursor.execute(myCmd).fetchall()
-            if len(result) == 0:
-                return [], None
-            if result[0][0] == None:
-                return [], None
-            return result,None
-        except Exception as e:
-            return [],e
-    
-    def update_row(self,tableName="",condition="",change=""):
-        try:
-            myCmd = f"UPDATE {tableName} SET {change} WHERE {condition}"
-            self.cursor.execute(myCmd)
-            self.conn.commit()
-            return 1,None
-        except Exception as e:
-            return 0,e
-
-    def reset_table(self,tableName=""):
-        try:
-            self.cursor.execute(f"DELETE FROM {tableName}")
-            self.conn.commit()
-            return 1,None
-        except Exception as e:
-            return 0,e
-
-    def delete_row(self,tableName="",condition=()):
-        try:
-            if type(condition[1]) == str:
-                myCmd = f"DELETE FROM {tableName} WHERE {condition[0]} = '{condition[1]}'"
-            else:
-                myCmd = f"DELETE FROM {tableName} WHERE {condition[0]} = {condition[1]}"
-            self.cursor.execute(myCmd)
-            self.conn.commit()
-            return 1,None
-        except Exception as e:
-            return 0,e
-            
-    def close_db(self):
-        try:
-            self.conn.commit()
-            self.conn.close()
-            return 1,None
-        except Exception as e:
-            return 0,e
-       
 ```

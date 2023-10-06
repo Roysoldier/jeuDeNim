@@ -16,9 +16,7 @@ class Bois():
         for i in range(self.nbr):
             pygame.draw.rect(self.surface, self.color, pygame.Rect(distance, 210, 30, 300),border_radius=20)
             distance += 52
-        for i in range(self.base_nbr - self.nbr):
-            pygame.draw.rect(self.surface, self.color_delete, pygame.Rect(distance, 210, 30, 300),border_radius=20)
-            distance += 52
+        #for i in range(self.base_nbr - self.nbr):
+            #pygame.draw.rect(self.surface, self.color_delete, pygame.Rect(distance, 210, 30, 300),border_radius=20)
+            #distance += 52
     
-    def game(self):
-        self.nbr -= 1
