@@ -1,7 +1,14 @@
 import pygame
 import math
 class Bouton():
+    '''
+    L'objet Bouton permet de crée les bouton et de récupèrer toutes leur coordonée afin de les localiser
+    et d'en faire des entité pur capable d'interaction dans le code il permet aussi de les afficher simplement.
+    '''
     def __init__(self,screen,):
+        '''
+        L'objet ne prend que l'objet screen en argument on va initialiser tout les bouton dans le init
+        '''
         self.screen = screen
         self.button1 = pygame.image.load('./data/bouton1.png')
         self.button1 = pygame.transform.scale(self.button1, (100,100))
@@ -46,6 +53,9 @@ class Bouton():
         self.lancement_bouton_2_rect.y = math.ceil(screen.get_height() - 150)
 
     def active_bouton(self,bouton):
+        '''
+        Cette Fonction qui prend en paramètre le nom du bouton va permetre d'activer les boutons dans le jeu
+        '''
         if bouton == 'Start_1':
             self.screen.blit(self.lancement_bouton_1,self.lancement_bouton_1_rect)
         elif bouton == 'Start_2':

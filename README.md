@@ -75,7 +75,7 @@ while running==False:
 - https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png
 
 ## Sources et ressoures graphique du jeu :
-
+- Vous retrouverez toutes les images utilisée pour ce jeu dans le répertoire : ./data/...
 # Détails des Objets :
 ## Bois : 
 
@@ -202,8 +202,15 @@ class Joueur:
         print(self.name)
 ```
 ## Game : 
-    Cet Objet Permet de gerer toutes instances de la game  
-
+    Cet Objet Permet de gerer toutes instances de la game  afin de gerer son bon déroulement dans les règles imposer
+- Cet Objet ne prend rien en entrée.
+- Fonction start_game permet de lancer le jeu prend en argument le nombre de joueur le nombre de bois ainsi que les dimension de l'écran.
+- Fonction create_player va simplement crée les objets des différents joueurs , elle ne prend que self en argument.
+- Fonction nbr_players est une fonction qui prend le nombre de joueurs en entrée et qui l'affiche.
+- Fonction check_delete_nbr permet de vérifier qu'il reste assez de baton pour continuer à jouer toutes les instances.
+- Fonction check_status_game qui va vérifier si la partie doit se terminer.
+- Fonction jeux_ia qui va simplement faire jouer l'ia.
+- Fonction reset_game qui va simplement rénitialiser toutes les instances de la aprtie pour être prêt à en lancer une nouvelle
 ### Code :
 ``` python game code 
 import pygame
